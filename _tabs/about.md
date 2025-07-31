@@ -3,6 +3,11 @@
 icon: fas fa-info-circle
 order: 4
 ---
+# About
+
+> Add Markdown syntax content to file `_tabs/about.md`{: .filepath } and it will show up on this page.
+
+{: .prompt-tip }
 
 Al-Ahliya Int is a leading provider of professional cleaning equipment and supplies, based in Al-Farwaniya, Al-Dajeej - Block 1, Parcel 43, 1st Floor, Office 6, Kuwait.
 
