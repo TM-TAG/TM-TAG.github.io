@@ -3,9 +3,9 @@
 icon: fas fa-info-circle
 order: 4
 ---
-# About
+# About Al-Ahliya
 
-Al-Ahliya Int is a leading provider of professional cleaning equipment and supplies, based in Al-Farwaniya, Al-Dajeej - Block 1, Parcel 43, 1st Floor, Office 6, Kuwait.
+Al-Ahliya Int is a leading provider of professional cleaning equipment and supplies located at Al-Farwaniya, Al-Dajeej - Block 1, Parcel 43, 1st Floor, Office 6, Kuwait.
 
 Founded in 2005, we have earned a strong reputation for delivering high-quality cleaning solutions for residential, commercial, and industrial needs. Our online store features a carefully curated range of categories:
 
