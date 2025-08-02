@@ -2,8 +2,8 @@
 #  Icons from <https://fontawesome.com/>
 
 platforms:
-  - type: Instagram
-    icon: "fa-brands fa-square-instagram"
+  - type: instagram
+    icon: "fa-brands fa-instagram"
     link: "https://www.instagram.com/alahliyakwt/"
 
   - type: Facebook
