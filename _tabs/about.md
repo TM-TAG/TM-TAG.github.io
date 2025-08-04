@@ -15,16 +15,16 @@ Our online store features a carefully curated range of categories:
 
 ### Product Categories
 
-* "⚙️" **Cleaning Machines**  
+-⚙️ **Cleaning Machines**  
   Large motorized and auto-drive equipment for effective cleaning.
 
-* "🧪" **Cleaning Chemicals**  
+-🧪 **Cleaning Chemicals**  
   A wide range of detergents, sterilizers, and specialized cleaning products.
 
-* "🧹" **Cleaning Tools**  
+-🧹 **Cleaning Tools**  
   Household mops, brushes, cloths, and non-powered tools.
 
-* "🗑️" **Waste Management**  
+-🗑️ **Waste Management**  
   Solutions for efficient waste collection, storage, and disposal.
 
 ---
