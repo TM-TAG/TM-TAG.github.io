@@ -1,6 +1,12 @@
-
 <!-- _includes/head-custom.html -->
-<link rel="icon" href="{{ '/assets/img/favicon.ico' | relative_url }}" type="image/x-icon">
+<link rel="icon" href="{{ '/assets/img/favicons/favicon.ico' | relative_url }}" type="image/x-icon">
 
 <!-- FontAwesome CDN -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" integrity="sha512-BmF/BbE5e0O7XhoV6YHKkBpdhgI9p+6SnPG7cfGGcZhzHJxUnlMTGoV+e7nTQCD4WrgvZDFavM9UhwNWZ2g0rQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+ integrity="sha512-BmF/BbE5e0O7XhoV6YHKkBpdhgI9p+6SnPG7cfGGcZhzHJxUnlMTGoV+e7nTQCD4WrgvZDFavM9UhwNWZ2g0rQ=="
+ crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+{% if page.lang == "ar" or site.lang == "ar" %}
+<link rel="stylesheet" href="{{ '/assets/css/rtl.css' | relative_url }}">
+<link href="https://fonts.googleapis.com/css2?family=Cairo&display=swap" rel="stylesheet">
+{% endif %}

@@ -1,0 +1,8 @@
+/* assets/css/rtl.css */
+html[lang="ar"] {
+  direction: rtl;
+  text-align: right;
+}
+html[lang="ar"] body {
+  font-family: 'Cairo', sans-serif;
+}

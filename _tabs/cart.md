@@ -2,6 +2,7 @@
 title: Cart
 icon: fas fa-shopping-cart
 order: 3
+lang: en
 ---
 
-Coming soon: Your shopping cart.
+Content for Cart page.

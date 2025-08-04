@@ -1,7 +1,8 @@
 ---
 title: Contact
 icon: fas fa-envelope
-order: 2
+order: 4
+lang: en
 ---
 
-You can reach us at: [Instagram](https://instagram.com/alahliyakwt)
+Content for Contact page.
