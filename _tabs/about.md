@@ -15,16 +15,16 @@ Our online store features a carefully curated range of categories:
 
 ### Product Categories
 
-* <i class="fas fa-broom"></i> **Cleaning Machines**  
+* ⚙️ **Cleaning Machines**  
   Large motorized and auto-drive equipment for effective cleaning.
 
-* <i class="fas fa-pump-soap"></i> **Cleaning Chemicals**  
+* 🧪 **Cleaning Chemicals**  
   A wide range of detergents, sterilizers, and specialized cleaning products.
 
-* <i class="fas fa-soap"></i> **Cleaning Tools**  
+* 🧹 **Cleaning Tools**  
   Household mops, brushes, cloths, and non-powered tools.
 
-* <i class="fas fa-trash-alt"></i> **Waste Management**  
+* 🗑️ **Waste Management**  
   Solutions for efficient waste collection, storage, and disposal.
 
 ---
@@ -37,6 +37,6 @@ At Al-Ahliya Int, we pride ourselves on our highly trained team, reliable servic
 
 ### Contact Information
 
-- **Working Hours:** Sunday to Thursday — 9:00 AM to 5:00 PM  
-- **Address:** Al-Dajeej, Block 1, Parcel 43, 1st Floor, Office 6  
-- **Phone:** +965 96935888
+**Working Hours:** Sunday to Thursday — 9:00 AM to 5:00 PM  
+**Address:** Al-Dajeej, Block 1, Parcel 43, 1st Floor, Office 6  
+**Phone:** +965 96935888
