@@ -1,8 +1,5 @@
 ---
-title: Categories
+layout: categories
 icon: fas fa-stream
-order: 2
-lang: en
+order: 1
 ---
-
-Content for Categories page.

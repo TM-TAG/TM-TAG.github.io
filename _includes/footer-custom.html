@@ -1,17 +1,20 @@
-<!-- _includes/footer-custom.html -->
-<div class="site-tools">
-  <!-- Theme Toggle -->
-  <button id="theme-toggle" title="Toggle Theme"><i class="fas fa-adjust"></i></button>
-  <!-- Language Switch Icon -->
-  <a href="/ar/" title="العربية"><i class="fas fa-language"></i></a>
-</div>
+<!-- Language Switch Icon -->
+<a href="/ar/" title="العربية">
+  <i class="fas fa-language"></i>
+</a>
 
+<!-- Language Toggle -->
+<button id="lang-toggle" aria-label="Toggle Language" title="Toggle Language">
+  <i class="fa-solid fa-language"></i>
+</button>
 <script>
-  // Theme Toggle
-  document.getElementById('theme-toggle').addEventListener('click', function () {
-    const theme = document.documentElement.getAttribute('data-theme');
-    const newTheme = theme === 'dark' ? 'light' : 'dark';
-    document.documentElement.setAttribute('data-theme', newTheme);
-    localStorage.setItem('theme', newTheme);
+  const langToggle = document.getElementById("lang-toggle");
+  langToggle.addEventListener("click", () => {
+    const currentPath = window.location.pathname;
+    if (currentPath.startsWith("/ar/")) {
+      window.location.pathname = currentPath.replace("/ar/", "/");
+    } else {
+      window.location.pathname = "/ar" + currentPath;
+    }
   });
 </script>

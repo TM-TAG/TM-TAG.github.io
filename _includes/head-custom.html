@@ -1,12 +1,28 @@
+<!-- Favicons -->
+<link rel="apple-touch-icon" sizes="180x180" href="{{ '/assets/img/favicon/apple-touch-icon.png' | relative_url }}">
+<link rel="icon" type="image/png" sizes="32x32" href="{{ '/assets/img/favicon/favicon-32x32.png' | relative_url }}">
+<link rel="icon" type="image/png" sizes="16x16" href="{{ '/assets/img/favicon/favicon-16x16.png' | relative_url }}">
+<link rel="manifest" href="{{ '/assets/img/favicon/site.webmanifest' | relative_url }}">
+<link rel="mask-icon" href="{{ '/assets/img/favicon/favicon.svg' | relative_url }}" color="#5bbad5">
+<link rel="shortcut icon" href="{{ '/assets/img/favicon/favicon.ico' | relative_url }}">
+<meta name="msapplication-TileColor" content="#da532c">
+<meta name="msapplication-TileImage" content="{{ '/assets/img/favicon/mstile-150x150.png' | relative_url }}">
+<meta name="theme-color" content="#ffffff">
+
 <!-- _includes/head-custom.html -->
-<link rel="icon" href="{{ '/assets/img/favicons/favicon.ico' | relative_url }}" type="image/x-icon">
+<link rel="icon" href="{{ '/assets/img/favicon.ico' | relative_url }}" type="image/x-icon">
 
 <!-- FontAwesome CDN -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
- integrity="sha512-BmF/BbE5e0O7XhoV6YHKkBpdhgI9p+6SnPG7cfGGcZhzHJxUnlMTGoV+e7nTQCD4WrgvZDFavM9UhwNWZ2g0rQ=="
- crossorigin="anonymous" referrerpolicy="no-referrer" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" integrity="sha512-BmF/BbE5e0O7XhoV6YHKkBpdhgI9p+6SnPG7cfGGcZhzHJxUnlMTGoV+e7nTQCD4WrgvZDFavM9UhwNWZ2g0rQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
-{% if page.lang == "ar" or site.lang == "ar" %}
-<link rel="stylesheet" href="{{ '/assets/css/rtl.css' | relative_url }}">
-<link href="https://fonts.googleapis.com/css2?family=Cairo&display=swap" rel="stylesheet">
-{% endif %}
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    if (window.location.pathname.startsWith("/ar")) {
+      document.documentElement.setAttribute("dir", "rtl");
+      document.documentElement.setAttribute("lang", "ar");
+    } else {
+      document.documentElement.setAttribute("dir", "ltr");
+      document.documentElement.setAttribute("lang", "en");
+    }
+  });
+</script>
