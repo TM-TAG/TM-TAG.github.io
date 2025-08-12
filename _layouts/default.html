@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{{ page.title }} | {{ site.title }}</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23fbb710'%3E%3Cpath d='M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5-10-5-10 5z'/%3E%3C/svg%3E">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body class="bg-gray-100 text-gray-800">
+  <!-- Toast Notifications -->
+  <div id="toast-container" class="fixed top-5 right-5 space-y-2 z-[4000]"></div>
+
+  <!-- Modal -->
+  <div id="modal" class="modal-backdrop fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center invisible opacity-0 p-4">
+    <div id="modal-content" class="modal-content bg-white p-6 sm:p-8 rounded-lg shadow-xl w-full max-w-md relative transform scale-95">
+      <button id="close-modal-btn" class="absolute top-4 right-4 text-gray-500 hover:text-gray-800"><i class="fas fa-times fa-lg"></i></button>
+      <div id="modal-body"></div>
+    </div>
+  </div>
+
+  <!-- Cart Panel -->
+  <div id="cart-panel" class="cart-panel fixed inset-0 bg-black bg-opacity-50 invisible opacity-0">
+    <div id="cart-panel-content" class="cart-panel-content fixed top-0 right-0 h-full w-full max-w-md bg-white shadow-xl transform translate-x-full">
+      <div class="flex flex-col h-full">
+        <div class="flex justify-between items-center p-4 border-b">
+          <h2 class="text-xl font-bold">Your Cart</h2>
+          <button id="close-cart-btn" class="text-gray-600 hover:text-gray-900"><i class="fas fa-times fa-lg"></i></button>
+        </div>
+        <div id="cart-items" class="flex-grow p-4 overflow-y-auto"></div>
+        <div id="cart-footer" class="p-4 border-t space-y-3">
+          <div class="flex justify-between items-center font-bold text-lg"><span>Subtotal:</span><span id="cart-subtotal">KWD 0.000</span></div>
+          <div class="flex gap-2">
+            <button id="clear-cart-btn" class="flex-1 bg-gray-200 text-gray-700 py-2 rounded-md hover:bg-gray-300 transition-colors font-semibold">Clear All</button>
+            <button class="flex-1 bg-yellow-500 text-white py-2 rounded-md hover:bg-yellow-600 transition-colors font-semibold">Checkout</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Back to Top Button -->
+  <button id="back-to-top" class="text-white">
+    <i class="fas fa-arrow-up"></i>
+  </button>
+
+  <!-- Main Container -->
+  <div class="relative min-h-screen md:flex">
+    <!-- Mobile Header -->
+    <header class="bg-white text-gray-800 flex justify-between md:hidden p-4 items-center shadow-md sticky top-0 z-50">
+      <a href="/" class="home-link text-2xl font-bold text-gray-800">Al-Ahliya INT.</a>
+      <button class="menu-toggle-btn text-gray-800">
+        <i class="fas fa-bars fa-lg"></i>
+      </button>
+    </header>
+
+    <!-- Sidebar -->
+    <aside id="sidebar" class="sidebar">
+      <button id="sidebar-close-btn" class="absolute top-8 right-8 text-white text-3xl md:hidden">
+        <i class="fas fa-times"></i>
+      </button>
+      <div class="flex justify-center mb-4">
+        <a href="/" class="home-link flex flex-col items-center space-y-2 cursor-pointer" title="Go to Homepage">
+          <svg class="h-12 w-12 text-yellow-500" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5-10-5-10 5z"/>
+          </svg>
+          <span class="text-xl font-extrabold text-white md:text-gray-800">Al-Ahliya INT.</span>
+        </a>
+      </div>
+      <div class="px-4 space-y-4">
+        <button id="open-cart-btn" class="w-full flex items-center justify-between space-x-2 text-white md:text-gray-600 hover:text-yellow-500 cursor-pointer p-2 rounded-md md:hover:bg-gray-100">
+          <div class="flex items-center space-x-2"><i class="fas fa-shopping-cart"></i><span>Cart</span></div>
+          <span id="cart-count-bubble" class="bg-yellow-500 text-white text-xs font-semibold rounded-full h-5 w-5 flex items-center justify-center">0</span>
+        </button>
+        <button id="login-btn" class="w-full flex items-center space-x-2 text-white md:text-gray-600 hover:text-yellow-500 cursor-pointer p-2 rounded-md md:hover:bg-gray-100">
+          <i class="fas fa-user"></i><span>Login</span>
+        </button>
+        <hr class="sidebar-separator">
+        <nav class="px-4">
+          <ul class="nav-links space-y-2">
+            <li><a href="#" class="nav-link" data-page="home"><i class="fas fa-home"></i> Home</a></li>
+            <li><a href="#" class="nav-link" data-page="store"><i class="fas fa-store"></i> Store</a></li>
+            <li><a href="#" class="nav-link" data-page="about"><i class="fas fa-info-circle"></i> About</a></li>
+            <li><a href="/products" class="nav-link"><i class="fas fa-th-list"></i> All Products</a></li>
+          </ul>
+        </nav>
+      </div>
+    </aside>
+
+    <div id="sidebar-overlay"></div>
+
+    <!-- Main Content Area -->
+    <main id="main-content" class="flex-1 p-3 md:p-10">
+      {{ content }}
+    </main>
+  </div>
+
+  <!-- Footer -->
+  <footer class="bg-gray-800 text-white py-8 px-4 md:px-16">
+    <div class="container mx-auto grid grid-cols-1 md:grid-cols-3 gap-8 text-center md:text-left items-center">
+      <div>
+        <a href="/" class="home-link flex flex-col items-center md:items-start space-y-2 cursor-pointer group" title="Go to Homepage">
+          <svg class="h-10 w-10 text-yellow-500 group-hover:text-yellow-400 transition-colors" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5-10-5-10 5z"/>
+          </svg>
+          <span class="text-lg font-bold text-white group-hover:text-gray-300 transition-colors">Al-Ahliya INT.</span>
+          <p class="text-gray-200 text-sm">Kuwaiti Cleaning Partner</p>
+          <p class="text-gray-400 text-sm">© 2025 <span class="font-bold">Al-Ahliya INT.</span> All Rights Reserved.</p>
+        </a>
+      </div>
+      <div class="text-sm text-gray-400 space-y-2">
+        <p><span class="font-bold text-gray-200">Working hours:</span><br>Sunday to Thursday - 9:00 AM to 5:00 PM</p>
+        <p><span class="font-bold text-gray-200">Kuwait Address:</span><br>Al-Dajeej, Block 1, Parcel 43, 1st floor, Office 6</p>
+        <p><span class="font-bold text-gray-200">Phone:</span><br><a href="tel:+96596935888" class="hover:text-yellow-400">[965] 96935888</a></p>
+      </div>
+      <div class="flex flex-col items-center md:items-end">
+        <a href="https://www.instagram.com/alahliyakwt" target="_blank" rel="noopener noreferrer" class="text-gray-400 hover:text-white transition-colors text-2xl">
+          <i class="fab fa-instagram"></i>
+        </a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="/js/main.js"></script>
+</body>
+</html>

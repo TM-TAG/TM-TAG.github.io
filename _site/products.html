@@ -1,0 +1,759 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Our Products | Al-Ahliya INT.</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23fbb710'%3E%3Cpath d='M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5-10-5-10 5z'/%3E%3C/svg%3E">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body class="bg-gray-100 text-gray-800">
+  <!-- Toast Notifications -->
+  <div id="toast-container" class="fixed top-5 right-5 space-y-2 z-[4000]"></div>
+
+  <!-- Modal -->
+  <div id="modal" class="modal-backdrop fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center invisible opacity-0 p-4">
+    <div id="modal-content" class="modal-content bg-white p-6 sm:p-8 rounded-lg shadow-xl w-full max-w-md relative transform scale-95">
+      <button id="close-modal-btn" class="absolute top-4 right-4 text-gray-500 hover:text-gray-800"><i class="fas fa-times fa-lg"></i></button>
+      <div id="modal-body"></div>
+    </div>
+  </div>
+
+  <!-- Cart Panel -->
+  <div id="cart-panel" class="cart-panel fixed inset-0 bg-black bg-opacity-50 invisible opacity-0">
+    <div id="cart-panel-content" class="cart-panel-content fixed top-0 right-0 h-full w-full max-w-md bg-white shadow-xl transform translate-x-full">
+      <div class="flex flex-col h-full">
+        <div class="flex justify-between items-center p-4 border-b">
+          <h2 class="text-xl font-bold">Your Cart</h2>
+          <button id="close-cart-btn" class="text-gray-600 hover:text-gray-900"><i class="fas fa-times fa-lg"></i></button>
+        </div>
+        <div id="cart-items" class="flex-grow p-4 overflow-y-auto"></div>
+        <div id="cart-footer" class="p-4 border-t space-y-3">
+          <div class="flex justify-between items-center font-bold text-lg"><span>Subtotal:</span><span id="cart-subtotal">KWD 0.000</span></div>
+          <div class="flex gap-2">
+            <button id="clear-cart-btn" class="flex-1 bg-gray-200 text-gray-700 py-2 rounded-md hover:bg-gray-300 transition-colors font-semibold">Clear All</button>
+            <button class="flex-1 bg-yellow-500 text-white py-2 rounded-md hover:bg-yellow-600 transition-colors font-semibold">Checkout</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Back to Top Button -->
+  <button id="back-to-top" class="text-white">
+    <i class="fas fa-arrow-up"></i>
+  </button>
+
+  <!-- Main Container -->
+  <div class="relative min-h-screen md:flex">
+    <!-- Mobile Header -->
+    <header class="bg-white text-gray-800 flex justify-between md:hidden p-4 items-center shadow-md sticky top-0 z-50">
+      <a href="/" class="home-link text-2xl font-bold text-gray-800">Al-Ahliya INT.</a>
+      <button class="menu-toggle-btn text-gray-800">
+        <i class="fas fa-bars fa-lg"></i>
+      </button>
+    </header>
+
+    <!-- Sidebar -->
+    <aside id="sidebar" class="sidebar">
+      <button id="sidebar-close-btn" class="absolute top-8 right-8 text-white text-3xl md:hidden">
+        <i class="fas fa-times"></i>
+      </button>
+      <div class="flex justify-center mb-4">
+        <a href="/" class="home-link flex flex-col items-center space-y-2 cursor-pointer" title="Go to Homepage">
+          <svg class="h-12 w-12 text-yellow-500" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5-10-5-10 5z"/>
+          </svg>
+          <span class="text-xl font-extrabold text-white md:text-gray-800">Al-Ahliya INT.</span>
+        </a>
+      </div>
+      <div class="px-4 space-y-4">
+        <button id="open-cart-btn" class="w-full flex items-center justify-between space-x-2 text-white md:text-gray-600 hover:text-yellow-500 cursor-pointer p-2 rounded-md md:hover:bg-gray-100">
+          <div class="flex items-center space-x-2"><i class="fas fa-shopping-cart"></i><span>Cart</span></div>
+          <span id="cart-count-bubble" class="bg-yellow-500 text-white text-xs font-semibold rounded-full h-5 w-5 flex items-center justify-center">0</span>
+        </button>
+        <button id="login-btn" class="w-full flex items-center space-x-2 text-white md:text-gray-600 hover:text-yellow-500 cursor-pointer p-2 rounded-md md:hover:bg-gray-100">
+          <i class="fas fa-user"></i><span>Login</span>
+        </button>
+        <hr class="sidebar-separator">
+        <nav class="px-4">
+          <ul class="nav-links space-y-2">
+            <li><a href="#" class="nav-link" data-page="home"><i class="fas fa-home"></i> Home</a></li>
+            <li><a href="#" class="nav-link" data-page="store"><i class="fas fa-store"></i> Store</a></li>
+            <li><a href="#" class="nav-link" data-page="about"><i class="fas fa-info-circle"></i> About</a></li>
+            <li><a href="/products" class="nav-link"><i class="fas fa-th-list"></i> All Products</a></li>
+          </ul>
+        </nav>
+      </div>
+    </aside>
+
+    <div id="sidebar-overlay"></div>
+
+    <!-- Main Content Area -->
+    <main id="main-content" class="flex-1 p-3 md:p-10">
+      <h1 class="text-3xl font-bold mb-8">Our Product Catalog</h1>
+
+<!-- ✅ Liquid loop -->
+<div class="shop-grid">
+  
+  <div class="product-card">
+    <div class="product-image">
+      <img src="/images/products/3m%20-%20stone%20floor%20protector%20(1l).jpg" alt="Stone Floor Protector (1L)" />
+    </div>
+    <div class="product-info">
+      <span class="product-category">Chemicals</span>
+      <h3 class="product-name">Stone Floor Protector (1L)</h3>
+      <div class="product-price">
+        <span class="price">KWD 22.5</span>
+      </div>
+    </div>
+  </div>
+  
+  <div class="product-card">
+    <div class="product-image">
+      <img src="/images/products/berry%20-%20handi%20trash%20bag.jpg" alt="Handi Trash Bag" />
+    </div>
+    <div class="product-info">
+      <span class="product-category">Machines</span>
+      <h3 class="product-name">Handi Trash Bag</h3>
+      <div class="product-price">
+        <span class="price">KWD 15</span>
+      </div>
+    </div>
+  </div>
+  
+  <div class="product-card">
+    <div class="product-image">
+      <img src="/images/products/bissell%20-%20biggreen%20bg355.jpg" alt="BigGreen BG355" />
+    </div>
+    <div class="product-info">
+      <span class="product-category">Machines</span>
+      <h3 class="product-name">BigGreen BG355</h3>
+      <div class="product-price">
+        <span class="price">KWD 180</span>
+      </div>
+    </div>
+  </div>
+  
+  <div class="product-card">
+    <div class="product-image">
+      <img src="/images/products/bona%20-%20hardwood%20floor%20polish%20(1l).jpg" alt="Hardwood Floor Polish (1L)" />
+    </div>
+    <div class="product-info">
+      <span class="product-category">Chemicals</span>
+      <h3 class="product-name">Hardwood Floor Polish (1L)</h3>
+      <div class="product-price">
+        <span class="price">KWD 9.5</span>
+      </div>
+    </div>
+  </div>
+  
+  <div class="product-card">
+    <div class="product-image">
+      <img src="/images/products/brute%20-%20industrial%20waste%20bins%20(240l).jpg" alt="Industrial Waste Bins (240L)" />
+    </div>
+    <div class="product-info">
+      <span class="product-category">Recycling</span>
+      <h3 class="product-name">Industrial Waste Bins (240L)</h3>
+      <div class="product-price">
+        <span class="price">KWD 35</span>
+      </div>
+    </div>
+  </div>
+  
+  <div class="product-card">
+    <div class="product-image">
+      <img src="/images/products/clorox%20-%20disinfecting%20wipes%20(75%20count).jpg" alt="Disinfecting Wipes (75 count)" />
+    </div>
+    <div class="product-info">
+      <span class="product-category">Chemicals</span>
+      <h3 class="product-name">Disinfecting Wipes (75 count)</h3>
+      <div class="product-price">
+        <span class="price">KWD 3</span>
+      </div>
+    </div>
+  </div>
+  
+  <div class="product-card">
+    <div class="product-image">
+      <img src="/images/products/clorox%20-%20household%20disinfectant%20spray%20(750ml).jpg" alt="Household Disinfectant Spray (750ml)" />
+    </div>
+    <div class="product-info">
+      <span class="product-category">Chemicals</span>
+      <h3 class="product-name">Household Disinfectant Spray (750ml)</h3>
+      <div class="product-price">
+        <span class="price">KWD 8.5</span>
+      </div>
+    </div>
+  </div>
+  
+  <div class="product-card">
+    <div class="product-image">
+      <img src="/images/products/dettol%20-%20hand%20sanitizer%20(standard%20bottle%20-%20500ml).jpg" alt="Hand Sanitizer (Standard Bottle - 500ml)" />
+    </div>
+    <div class="product-info">
+      <span class="product-category">Chemicals</span>
+      <h3 class="product-name">Hand Sanitizer (Standard Bottle - 500ml)</h3>
+      <div class="product-price">
+        <span class="price">KWD 4.5</span>
+      </div>
+    </div>
+  </div>
+  
+  <div class="product-card">
+    <div class="product-image">
+      <img src="/images/products/diversey%20-%20multi-surface%20spray%20(500ml).jpg" alt="Multi-Surface Spray (500ml)" />
+    </div>
+    <div class="product-info">
+      <span class="product-category">Chemicals</span>
+      <h3 class="product-name">Multi-Surface Spray (500ml)</h3>
+      <div class="product-price">
+        <span class="price">KWD 5.8</span>
+      </div>
+    </div>
+  </div>
+  
+  <div class="product-card">
+    <div class="product-image">
+      <img src="/images/products/dr%20schutz%20-%20floor%20matting%20system.jpg" alt="Floor Matting System" />
+    </div>
+    <div class="product-info">
+      <span class="product-category">Chemicals</span>
+      <h3 class="product-name">Floor Matting System</h3>
+      <div class="product-price">
+        <span class="price">KWD 22.5</span>
+      </div>
+    </div>
+  </div>
+  
+  <div class="product-card">
+    <div class="product-image">
+      <img src="/images/products/febreze%20-%20odor%20neutralizer%20sprays%20(300ml).jpg" alt="Odor Neutralizer Sprays (300ml)" />
+    </div>
+    <div class="product-info">
+      <span class="product-category">Chemicals</span>
+      <h3 class="product-name">Odor Neutralizer Sprays (300ml)</h3>
+      <div class="product-price">
+        <span class="price">KWD 6.5</span>
+      </div>
+    </div>
+  </div>
+  
+  <div class="product-card">
+    <div class="product-image">
+      <img src="/images/products/glad%20-%20trash%20bags%20(household%20-%2030l%20-%2050%20count).jpg" alt="Trash Bags (Household - 30L - 50 count)" />
+    </div>
+    <div class="product-info">
+      <span class="product-category">Recycling</span>
+      <h3 class="product-name">Trash Bags (Household - 30L - 50 count)</h3>
+      <div class="product-price">
+        <span class="price">KWD 2.5</span>
+      </div>
+    </div>
+  </div>
+  
+  <div class="product-card">
+    <div class="product-image">
+      <img src="/images/products/harmony%20enterprises%20-%20recycling%20compactor%20(small).jpg" alt="Recycling Compactor (Small)" />
+    </div>
+    <div class="product-info">
+      <span class="product-category">Recycling</span>
+      <h3 class="product-name">Recycling Compactor (Small)</h3>
+      <div class="product-price">
+        <span class="price">KWD 1200</span>
+      </div>
+    </div>
+  </div>
+  
+  <div class="product-card">
+    <div class="product-image">
+      <img src="/images/products/isal%20-%20isal%206000%20width%206cbm%20(urban%20sweeper).jpg" alt="ISAL 6000 Width 6cbm (Urban Sweeper)" />
+    </div>
+    <div class="product-info">
+      <span class="product-category">Machines</span>
+      <h3 class="product-name">ISAL 6000 Width 6cbm (Urban Sweeper)</h3>
+      <div class="product-price">
+        <span class="price">KWD 700</span>
+      </div>
+    </div>
+  </div>
+  
+  <div class="product-card">
+    <div class="product-image">
+      <img src="/images/products/isal%20-%20ride-on%20sweeper%20pb%20110.jpg" alt="Ride-on sweeper PB 110" />
+    </div>
+    <div class="product-info">
+      <span class="product-category">Machines</span>
+      <h3 class="product-name">Ride-on sweeper PB 110</h3>
+      <div class="product-price">
+        <span class="price">KWD 1200</span>
+      </div>
+    </div>
+  </div>
+  
+  <div class="product-card">
+    <div class="product-image">
+      <img src="/images/products/isal%20-%20ride-on%20sweeper%20pb%20111.jpg" alt="Ride-on sweeper PB 111" />
+    </div>
+    <div class="product-info">
+      <span class="product-category">Machines</span>
+      <h3 class="product-name">Ride-on sweeper PB 111</h3>
+      <div class="product-price">
+        <span class="price">KWD 2000</span>
+      </div>
+    </div>
+  </div>
+  
+  <div class="product-card">
+    <div class="product-image">
+      <img src="/images/products/isal%20-%20ride-on%20sweeper%20pb%20115.jpg" alt="Ride-on sweeper PB 115" />
+    </div>
+    <div class="product-info">
+      <span class="product-category">Machines</span>
+      <h3 class="product-name">Ride-on sweeper PB 115</h3>
+      <div class="product-price">
+        <span class="price">KWD 3500</span>
+      </div>
+    </div>
+  </div>
+  
+  <div class="product-card">
+    <div class="product-image">
+      <img src="/images/products/isal%20-%20ride-on%20sweeper%20pb%20180.jpg" alt="Ride-on sweeper PB 180" />
+    </div>
+    <div class="product-info">
+      <span class="product-category">Machines</span>
+      <h3 class="product-name">Ride-on sweeper PB 180</h3>
+      <div class="product-price">
+        <span class="price">KWD 5000</span>
+      </div>
+    </div>
+  </div>
+  
+  <div class="product-card">
+    <div class="product-image">
+      <img src="/images/products/isal%20-%20ride-on%20sweeper%20pb%20200.jpg" alt="Ride-on sweeper PB 200" />
+    </div>
+    <div class="product-info">
+      <span class="product-category">Machines</span>
+      <h3 class="product-name">Ride-on sweeper PB 200</h3>
+      <div class="product-price">
+        <span class="price">KWD 45000</span>
+      </div>
+    </div>
+  </div>
+  
+  <div class="product-card">
+    <div class="product-image">
+      <img src="/images/products/johnson%20-%20tile%20floor%20wax%20(750ml).jpg" alt="Tile Floor Wax (750ml)" />
+    </div>
+    <div class="product-info">
+      <span class="product-category">Chemicals</span>
+      <h3 class="product-name">Tile Floor Wax (750ml)</h3>
+      <div class="product-price">
+        <span class="price">KWD 6.5</span>
+      </div>
+    </div>
+  </div>
+  
+  <div class="product-card">
+    <div class="product-image">
+      <img src="/images/products/karcher%20-%20industrial%20floor%20detergent%20(20l).jpg" alt="Industrial Floor Detergent (20L)" />
+    </div>
+    <div class="product-info">
+      <span class="product-category">Chemicals</span>
+      <h3 class="product-name">Industrial Floor Detergent (20L)</h3>
+      <div class="product-price">
+        <span class="price">KWD 45</span>
+      </div>
+    </div>
+  </div>
+  
+  <div class="product-card">
+    <div class="product-image">
+      <img src="/images/products/lysol%20-%20hospital-grade%20disinfectant%20(5l).jpg" alt="Hospital-Grade Disinfectant (5L)" />
+    </div>
+    <div class="product-info">
+      <span class="product-category">Chemicals</span>
+      <h3 class="product-name">Hospital-Grade Disinfectant (5L)</h3>
+      <div class="product-price">
+        <span class="price">KWD 25</span>
+      </div>
+    </div>
+  </div>
+  
+  <div class="product-card">
+    <div class="product-image">
+      <img src="/images/products/o-cedar%20-%20microfiber%20mop.jpg" alt="Microfiber Mop" />
+    </div>
+    <div class="product-info">
+      <span class="product-category">Tools</span>
+      <h3 class="product-name">Microfiber Mop</h3>
+      <div class="product-price">
+        <span class="price">KWD 4.5</span>
+      </div>
+    </div>
+  </div>
+  
+  <div class="product-card">
+    <div class="product-image">
+      <img src="/images/products/oxo%20good%20grips%20-%20scrub%20brush%20(all-purpose).jpg" alt="Scrub Brush (All-Purpose)" />
+    </div>
+    <div class="product-info">
+      <span class="product-category">Tools</span>
+      <h3 class="product-name">Scrub Brush (All-Purpose)</h3>
+      <div class="product-price">
+        <span class="price">KWD 2.2</span>
+      </div>
+    </div>
+  </div>
+  
+  <div class="product-card">
+    <div class="product-image">
+      <img src="/images/products/powrflite%20-%20pfx%20900s%20carpet%20extractor.jpg" alt="PFX 900S carpet extractor" />
+    </div>
+    <div class="product-info">
+      <span class="product-category">Machines</span>
+      <h3 class="product-name">PFX 900S carpet extractor</h3>
+      <div class="product-price">
+        <span class="price">KWD 950</span>
+      </div>
+    </div>
+  </div>
+  
+  <div class="product-card">
+    <div class="product-image">
+      <img src="/images/products/purell%20-%20hand%20sanitizer%20bulk%20(5l).jpg" alt="Hand Sanitizer Bulk (5L)" />
+    </div>
+    <div class="product-info">
+      <span class="product-category">Chemicals</span>
+      <h3 class="product-name">Hand Sanitizer Bulk (5L)</h3>
+      <div class="product-price">
+        <span class="price">KWD 18</span>
+      </div>
+    </div>
+  </div>
+  
+  <div class="product-card">
+    <div class="product-image">
+      <img src="/images/products/purell%20-%20hand%20sanitizer%20wipes%20(100%20count).jpg" alt="Hand Sanitizer Wipes (100 count)" />
+    </div>
+    <div class="product-info">
+      <span class="product-category">Chemicals</span>
+      <h3 class="product-name">Hand Sanitizer Wipes (100 count)</h3>
+      <div class="product-price">
+        <span class="price">KWD 7.5</span>
+      </div>
+    </div>
+  </div>
+  
+  <div class="product-card">
+    <div class="product-image">
+      <img src="/images/products/roots%20-%20escalator%20rootsscrub%20e%204550%20es.jpg" alt="Escalator RootsScrub E 4550 ES" />
+    </div>
+    <div class="product-info">
+      <span class="product-category">Machines</span>
+      <h3 class="product-name">Escalator RootsScrub E 4550 ES</h3>
+      <div class="product-price">
+        <span class="price">KWD 1800</span>
+      </div>
+    </div>
+  </div>
+  
+  <div class="product-card">
+    <div class="product-image">
+      <img src="/images/products/roots%20-%20india%20truck%20mounted%20sweeper.jpg" alt="india truck mounted sweeper" />
+    </div>
+    <div class="product-info">
+      <span class="product-category">Machines</span>
+      <h3 class="product-name">india truck mounted sweeper</h3>
+      <div class="product-price">
+        <span class="price">KWD 80000</span>
+      </div>
+    </div>
+  </div>
+  
+  <div class="product-card">
+    <div class="product-image">
+      <img src="/images/products/rubbermaid%20-%20dustpan%20and%20brush%20set.jpg" alt="Dustpan and Brush Set" />
+    </div>
+    <div class="product-info">
+      <span class="product-category">Tools</span>
+      <h3 class="product-name">Dustpan and Brush Set</h3>
+      <div class="product-price">
+        <span class="price">KWD 3</span>
+      </div>
+    </div>
+  </div>
+  
+  <div class="product-card">
+    <div class="product-image">
+      <img src="/images/products/scotch%20-%20brite%20-%20lint%20roller%20(pack%20of%202).jpg" alt="Brite - Lint Roller (Pack of 2)" />
+    </div>
+    <div class="product-info">
+      <span class="product-category">Tools</span>
+      <h3 class="product-name">Brite - Lint Roller (Pack of 2)</h3>
+      <div class="product-price">
+        <span class="price">KWD 1.8</span>
+      </div>
+    </div>
+  </div>
+  
+  <div class="product-card">
+    <div class="product-image">
+      <img src="/images/products/scotch%20-%20brite%20-%20reusable%20cleaning%20cloths%203m%20(pack%20of%205).jpg" alt="Brite - Reusable Cleaning Cloths 3M (Pack of 5)" />
+    </div>
+    <div class="product-info">
+      <span class="product-category">Tools</span>
+      <h3 class="product-name">Brite - Reusable Cleaning Cloths 3M (Pack of 5)</h3>
+      <div class="product-price">
+        <span class="price">KWD 3.8</span>
+      </div>
+    </div>
+  </div>
+  
+  <div class="product-card">
+    <div class="product-image">
+      <img src="/images/products/swiffer%20-%20extendable%20duster%20(microfiber).jpg" alt="Extendable Duster (Microfiber)" />
+    </div>
+    <div class="product-info">
+      <span class="product-category">Tools</span>
+      <h3 class="product-name">Extendable Duster (Microfiber)</h3>
+      <div class="product-price">
+        <span class="price">KWD 6</span>
+      </div>
+    </div>
+  </div>
+  
+  <div class="product-card">
+    <div class="product-image">
+      <img src="/images/products/telemet%20-%20cubomatic%20sanispray%20120.jpg" alt="CUBOMATIC SANISPRAY 120" />
+    </div>
+    <div class="product-info">
+      <span class="product-category">Machines</span>
+      <h3 class="product-name">CUBOMATIC SANISPRAY 120</h3>
+      <div class="product-price">
+        <span class="price">KWD 1500</span>
+      </div>
+    </div>
+  </div>
+  
+  <div class="product-card">
+    <div class="product-image">
+      <img src="/images/products/tsm%20-%20aria%20240.jpg" alt="Aria 240" />
+    </div>
+    <div class="product-info">
+      <span class="product-category">Machines</span>
+      <h3 class="product-name">Aria 240</h3>
+      <div class="product-price">
+        <span class="price">KWD 2500</span>
+      </div>
+    </div>
+  </div>
+  
+  <div class="product-card">
+    <div class="product-image">
+      <img src="/images/products/tsm%20-%20durashine%2013.jpg" alt="Durashine 13" />
+    </div>
+    <div class="product-info">
+      <span class="product-category">Machines</span>
+      <h3 class="product-name">Durashine 13</h3>
+      <div class="product-price">
+        <span class="price">KWD 850</span>
+      </div>
+    </div>
+  </div>
+  
+  <div class="product-card">
+    <div class="product-image">
+      <img src="/images/products/tsm%20-%20durashine%2017.jpg" alt="Durashine 17" />
+    </div>
+    <div class="product-info">
+      <span class="product-category">Machines</span>
+      <h3 class="product-name">Durashine 17</h3>
+      <div class="product-price">
+        <span class="price">KWD 380</span>
+      </div>
+    </div>
+  </div>
+  
+  <div class="product-card">
+    <div class="product-image">
+      <img src="/images/products/tsm%20-%20durashine%2020.jpg" alt="Durashine 20" />
+    </div>
+    <div class="product-info">
+      <span class="product-category">Machines</span>
+      <h3 class="product-name">Durashine 20</h3>
+      <div class="product-price">
+        <span class="price">KWD 2800</span>
+      </div>
+    </div>
+  </div>
+  
+  <div class="product-card">
+    <div class="product-image">
+      <img src="/images/products/tsm%20-%20durasweep%20375.jpg" alt="Durasweep 375" />
+    </div>
+    <div class="product-info">
+      <span class="product-category">Machines</span>
+      <h3 class="product-name">Durasweep 375</h3>
+      <div class="product-price">
+        <span class="price">KWD 450</span>
+      </div>
+    </div>
+  </div>
+  
+  <div class="product-card">
+    <div class="product-image">
+      <img src="/images/products/tsm%20-%20durasweep_130b.jpg" alt="DURASWEEP_130B" />
+    </div>
+    <div class="product-info">
+      <span class="product-category">Machines</span>
+      <h3 class="product-name">DURASWEEP_130B</h3>
+      <div class="product-price">
+        <span class="price">KWD 550</span>
+      </div>
+    </div>
+  </div>
+  
+  <div class="product-card">
+    <div class="product-image">
+      <img src="/images/products/tsm%20-%20grande%20brio%2035e.jpg" alt="Grande Brio 35E" />
+    </div>
+    <div class="product-info">
+      <span class="product-category">Machines</span>
+      <h3 class="product-name">Grande Brio 35E</h3>
+      <div class="product-price">
+        <span class="price">KWD 1200</span>
+      </div>
+    </div>
+  </div>
+  
+  <div class="product-card">
+    <div class="product-image">
+      <img src="/images/products/tsm%20-%20grande%20brio%2045e.jpg" alt="Grande Brio 45E" />
+    </div>
+    <div class="product-info">
+      <span class="product-category">Machines</span>
+      <h3 class="product-name">Grande Brio 45E</h3>
+      <div class="product-price">
+        <span class="price">KWD 1500</span>
+      </div>
+    </div>
+  </div>
+  
+  <div class="product-card">
+    <div class="product-image">
+      <img src="/images/products/tsm%20-%20grande%20brio%20ride%20on%20145-850.jpg" alt="Grande Brio RIDE ON 145-850" />
+    </div>
+    <div class="product-info">
+      <span class="product-category">Machines</span>
+      <h3 class="product-name">Grande Brio RIDE ON 145-850</h3>
+      <div class="product-price">
+        <span class="price">KWD 1800</span>
+      </div>
+    </div>
+  </div>
+  
+  <div class="product-card">
+    <div class="product-image">
+      <img src="/images/products/tsm%20-%20itala%20sweeper%20135%20st.jpg" alt="ITALA sweeper 135 ST" />
+    </div>
+    <div class="product-info">
+      <span class="product-category">Machines</span>
+      <h3 class="product-name">ITALA sweeper 135 ST</h3>
+      <div class="product-price">
+        <span class="price">KWD 7500</span>
+      </div>
+    </div>
+  </div>
+  
+  <div class="product-card">
+    <div class="product-image">
+      <img src="/images/products/unger%20-%20squeegee%20(window).jpg" alt="Squeegee (Window)" />
+    </div>
+    <div class="product-info">
+      <span class="product-category">Tools</span>
+      <h3 class="product-name">Squeegee (Window)</h3>
+      <div class="product-price">
+        <span class="price">KWD 4.5</span>
+      </div>
+    </div>
+  </div>
+  
+  <div class="product-card">
+    <div class="product-image">
+      <img src="/images/products/unilever%20-%20universal%20liquid%20detergent%20(5l).jpg" alt="Universal Liquid Detergent (5L)" />
+    </div>
+    <div class="product-info">
+      <span class="product-category">Chemicals</span>
+      <h3 class="product-name">Universal Liquid Detergent (5L)</h3>
+      <div class="product-price">
+        <span class="price">KWD 8</span>
+      </div>
+    </div>
+  </div>
+  
+  <div class="product-card">
+    <div class="product-image">
+      <img src="/images/products/vileda%20-%20heavy%20duty%20cotton%20mop%20(fc-22).jpg" alt="Heavy Duty Cotton Mop (FC-22)" />
+    </div>
+    <div class="product-info">
+      <span class="product-category">Tools</span>
+      <h3 class="product-name">Heavy Duty Cotton Mop (FC-22)</h3>
+      <div class="product-price">
+        <span class="price">KWD 1.5</span>
+      </div>
+    </div>
+  </div>
+  
+  <div class="product-card">
+    <div class="product-image">
+      <img src="/images/products/vileda%20-%20rubber%20gloves%20(medium).jpg" alt="Rubber Gloves (Medium)" />
+    </div>
+    <div class="product-info">
+      <span class="product-category">Tools</span>
+      <h3 class="product-name">Rubber Gloves (Medium)</h3>
+      <div class="product-price">
+        <span class="price">KWD 5.5</span>
+      </div>
+    </div>
+  </div>
+  
+</div>
+
+    </main>
+  </div>
+
+  <!-- Footer -->
+  <footer class="bg-gray-800 text-white py-8 px-4 md:px-16">
+    <div class="container mx-auto grid grid-cols-1 md:grid-cols-3 gap-8 text-center md:text-left items-center">
+      <div>
+        <a href="/" class="home-link flex flex-col items-center md:items-start space-y-2 cursor-pointer group" title="Go to Homepage">
+          <svg class="h-10 w-10 text-yellow-500 group-hover:text-yellow-400 transition-colors" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5-10-5-10 5z"/>
+          </svg>
+          <span class="text-lg font-bold text-white group-hover:text-gray-300 transition-colors">Al-Ahliya INT.</span>
+          <p class="text-gray-200 text-sm">Kuwaiti Cleaning Partner</p>
+          <p class="text-gray-400 text-sm">© 2025 <span class="font-bold">Al-Ahliya INT.</span> All Rights Reserved.</p>
+        </a>
+      </div>
+      <div class="text-sm text-gray-400 space-y-2">
+        <p><span class="font-bold text-gray-200">Working hours:</span><br>Sunday to Thursday - 9:00 AM to 5:00 PM</p>
+        <p><span class="font-bold text-gray-200">Kuwait Address:</span><br>Al-Dajeej, Block 1, Parcel 43, 1st floor, Office 6</p>
+        <p><span class="font-bold text-gray-200">Phone:</span><br><a href="tel:+96596935888" class="hover:text-yellow-400">[965] 96935888</a></p>
+      </div>
+      <div class="flex flex-col items-center md:items-end">
+        <a href="https://www.instagram.com/alahliyakwt" target="_blank" rel="noopener noreferrer" class="text-gray-400 hover:text-white transition-colors text-2xl">
+          <i class="fab fa-instagram"></i>
+        </a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="/js/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Home | Al-Ahliya INT.</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23fbb710'%3E%3Cpath d='M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5-10-5-10 5z'/%3E%3C/svg%3E">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body class="bg-gray-100 text-gray-800">
+  <!-- Toast Notifications -->
+  <div id="toast-container" class="fixed top-5 right-5 space-y-2 z-[4000]"></div>
+
+  <!-- Modal -->
+  <div id="modal" class="modal-backdrop fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center invisible opacity-0 p-4">
+    <div id="modal-content" class="modal-content bg-white p-6 sm:p-8 rounded-lg shadow-xl w-full max-w-md relative transform scale-95">
+      <button id="close-modal-btn" class="absolute top-4 right-4 text-gray-500 hover:text-gray-800"><i class="fas fa-times fa-lg"></i></button>
+      <div id="modal-body"></div>
+    </div>
+  </div>
+
+  <!-- Cart Panel -->
+  <div id="cart-panel" class="cart-panel fixed inset-0 bg-black bg-opacity-50 invisible opacity-0">
+    <div id="cart-panel-content" class="cart-panel-content fixed top-0 right-0 h-full w-full max-w-md bg-white shadow-xl transform translate-x-full">
+      <div class="flex flex-col h-full">
+        <div class="flex justify-between items-center p-4 border-b">
+          <h2 class="text-xl font-bold">Your Cart</h2>
+          <button id="close-cart-btn" class="text-gray-600 hover:text-gray-900"><i class="fas fa-times fa-lg"></i></button>
+        </div>
+        <div id="cart-items" class="flex-grow p-4 overflow-y-auto"></div>
+        <div id="cart-footer" class="p-4 border-t space-y-3">
+          <div class="flex justify-between items-center font-bold text-lg"><span>Subtotal:</span><span id="cart-subtotal">KWD 0.000</span></div>
+          <div class="flex gap-2">
+            <button id="clear-cart-btn" class="flex-1 bg-gray-200 text-gray-700 py-2 rounded-md hover:bg-gray-300 transition-colors font-semibold">Clear All</button>
+            <button class="flex-1 bg-yellow-500 text-white py-2 rounded-md hover:bg-yellow-600 transition-colors font-semibold">Checkout</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Back to Top Button -->
+  <button id="back-to-top" class="text-white">
+    <i class="fas fa-arrow-up"></i>
+  </button>
+
+  <!-- Main Container -->
+  <div class="relative min-h-screen md:flex">
+    <!-- Mobile Header -->
+    <header class="bg-white text-gray-800 flex justify-between md:hidden p-4 items-center shadow-md sticky top-0 z-50">
+      <a href="/" class="home-link text-2xl font-bold text-gray-800">Al-Ahliya INT.</a>
+      <button class="menu-toggle-btn text-gray-800">
+        <i class="fas fa-bars fa-lg"></i>
+      </button>
+    </header>
+
+    <!-- Sidebar -->
+    <aside id="sidebar" class="sidebar">
+      <button id="sidebar-close-btn" class="absolute top-8 right-8 text-white text-3xl md:hidden">
+        <i class="fas fa-times"></i>
+      </button>
+      <div class="flex justify-center mb-4">
+        <a href="/" class="home-link flex flex-col items-center space-y-2 cursor-pointer" title="Go to Homepage">
+          <svg class="h-12 w-12 text-yellow-500" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5-10-5-10 5z"/>
+          </svg>
+          <span class="text-xl font-extrabold text-white md:text-gray-800">Al-Ahliya INT.</span>
+        </a>
+      </div>
+      <div class="px-4 space-y-4">
+        <button id="open-cart-btn" class="w-full flex items-center justify-between space-x-2 text-white md:text-gray-600 hover:text-yellow-500 cursor-pointer p-2 rounded-md md:hover:bg-gray-100">
+          <div class="flex items-center space-x-2"><i class="fas fa-shopping-cart"></i><span>Cart</span></div>
+          <span id="cart-count-bubble" class="bg-yellow-500 text-white text-xs font-semibold rounded-full h-5 w-5 flex items-center justify-center">0</span>
+        </button>
+        <button id="login-btn" class="w-full flex items-center space-x-2 text-white md:text-gray-600 hover:text-yellow-500 cursor-pointer p-2 rounded-md md:hover:bg-gray-100">
+          <i class="fas fa-user"></i><span>Login</span>
+        </button>
+        <hr class="sidebar-separator">
+        <nav class="px-4">
+          <ul class="nav-links space-y-2">
+            <li><a href="#" class="nav-link" data-page="home"><i class="fas fa-home"></i> Home</a></li>
+            <li><a href="#" class="nav-link" data-page="store"><i class="fas fa-store"></i> Store</a></li>
+            <li><a href="#" class="nav-link" data-page="about"><i class="fas fa-info-circle"></i> About</a></li>
+            <li><a href="/products" class="nav-link"><i class="fas fa-th-list"></i> All Products</a></li>
+          </ul>
+        </nav>
+      </div>
+    </aside>
+
+    <div id="sidebar-overlay"></div>
+
+    <!-- Main Content Area -->
+    <main id="main-content" class="flex-1 p-3 md:p-10">
+      <!-- Home Page -->
+<section id="home-page" class="page-section active">
+  <div class="slideshow-container">
+    <!-- Slides -->
+    <div class="slideshow-slide" style="background-image: url('https://images.unsplash.com/photo-1595526114035-0d45ed16cfbf?q=80&w=2070')"></div>
+    <div class="slideshow-slide" style="background-image: url('https://images.unsplash.com/photo-1591872203534-278fc084969e?q=80&w=2064')"></div>
+    <div class="slideshow-slide active" style="background-image: url('https://images.unsplash.com/photo-1617103996702-96ff29b1c467?q=80&w=1932')"></div>
+
+    <!-- Slideshow nav -->
+    <button class="slideshow-nav slideshow-prev">
+      <i class="fas fa-chevron-left"></i>
+    </button>
+    <button class="slideshow-nav slideshow-next">
+      <i class="fas fa-chevron-right"></i>
+    </button>
+
+    <div class="slideshow-indicators">
+      <div class="slideshow-indicator active" data-index="0"></div>
+      <div class="slideshow-indicator" data-index="1"></div>
+      <div class="slideshow-indicator" data-index="2"></div>
+    </div>
+  </div>
+
+  <div class="text-center mb-12">
+    <h1 class="text-brand font-body text-4xl shadow-glow">
+      Welcome to Al-Ahliya Int. ✨
+    </h1>
+
+    <p class="text-xl max-w-3xl mx-auto mb-6">
+      Your trusted partner for premium cleaning solutions in Kuwait. We provide top-quality products for residential, commercial, and industrial needs.
+    </p>
+    <button id="explore-products-btn" class="bg-yellow-500 text-white px-6 py-3 rounded-full font-bold hover:bg-yellow-600 transition-colors">
+      Explore Our Products
+    </button>
+  </div>
+
+  <h2 class="text-3xl font-bold text-gray-800 mb-8">Featured Products</h2>
+
+  <div class="shop-grid" id="featured-products-grid">
+    <!-- Filled dynamically by JS -->
+  </div>
+</section>
+
+<!-- Store Page -->
+<section id="store-page" class="page-section">
+  <div id="categories-section">
+    <h2 class="text-3xl font-bold text-gray-800 mb-8">Product Categories</h2>
+    <div class="shop-grid" id="categories-grid"></div>
+  </div>
+
+  <div class="store-search-container">
+    <i class="fas fa-search"></i>
+    <input type="search" id="store-search" placeholder="Search all products..." class="w-full">
+  </div>
+
+  <div id="products-section" class="mt-8">
+    <div class="flex flex-wrap justify-between items-center mb-6 gap-4">
+      <h3 id="category-products-title" class="text-2xl font-bold text-gray-700">All Products</h3>
+      <div class="flex items-center gap-4">
+        <button id="show-all-btn" class="bg-gray-200 text-gray-700 px-4 py-2 rounded-md hover:bg-gray-300 transition-colors font-semibold">Show All</button>
+        <div class="pagination-controls">
+          <button id="prev-products" class="pagination-btn">
+            <i class="fas fa-chevron-left"></i>
+          </button>
+          <span id="page-indicator" class="page-indicator">Page 1 of 1</span>
+          <button id="next-products" class="pagination-btn">
+            <i class="fas fa-chevron-right"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ✅ THIS is your dynamic grid container -->
+    <div class="shop-grid" id="products-grid"></div>
+  </div>
+</section>
+
+
+<!-- About Page -->
+<section id="about-page" class="page-section">
+  <div class="bg-white p-6 md:p-8 rounded-lg shadow-lg about-content">
+    <h1 class="text-3xl md:text-4xl font-extrabold text-center text-yellow-500 mb-8">
+      <span class="text-2xl md:text-3xl font-medium">About</span> Al-Ahliya<span class="text-gray-800"> INT.</span>
+    </h1>
+    <div class="text-lg space-y-6 text-gray-700">
+      <p class="text-xl">
+        Al-Ahliya Int is a leading provider of professional cleaning equipment and supplies, based in Al-Farwaniya, Al-Dajeej – Block 1, Parcel 43, 1st Floor, Office 6, Kuwait.
+      </p>
+      <p>
+        Founded in 2005, we have earned a strong reputation for delivering high-quality cleaning solutions for residential, commercial, and industrial needs.
+      </p>
+      <div id="about-categories-list" class="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-4"></div>
+      <p>
+        At Al-Ahliya Int, we pride ourselves on our highly trained team, reliable service, and customer-first values.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- Product Detail Page -->
+<section id="product-detail-page" class="page-section">
+  <a class="back-button" id="back-to-store">
+    <i class="fas fa-arrow-left"></i> Back to Store
+  </a>
+  <div class="product-detail-grid">
+    <div>
+      <img id="product-detail-image" src="" alt="Product" class="w-full rounded-lg shadow-lg">
+    </div>
+    <div>
+      <p id="product-brand" class="text-sm uppercase text-gray-500 mb-2">Brand</p>
+      <h1 id="product-name" class="text-4xl lg:text-5xl font-bold text-gray-800 mb-4">Product Name</h1>
+      <p id="product-price" class="text-3xl font-light text-yellow-600 mb-6">KWD 0.000</p>
+      <p id="product-description" class="text-gray-700 leading-relaxed mb-6">Product description.</p>
+      <div class="border-t pt-6">
+        <h3 class="text-xl font-semibold mb-3">Key Features</h3>
+        <ul id="product-features" class="list-disc list-inside text-gray-600 space-y-2"></ul>
+      </div>
+      <div class="border-t mt-6 pt-6">
+        <p class="text-gray-500"><span class="font-semibold">SKU:</span> <span id="product-sku">N/A</span></p>
+        <p class="text-gray-500"><span class="font-semibold">Category:</span> <span id="product-category">N/A</span></p>
+      </div>
+      <div class="mt-8">
+        <button class="w-full bg-yellow-500 text-white font-bold py-3 px-6 rounded-lg hover:bg-yellow-600 transition-colors text-lg" id="add-to-cart-detail">
+          <i class="fas fa-shopping-cart mr-2"></i> Add to Cart
+        </button>
+      </div>
+    </div>
+  </div>
+</section>
+
+    </main>
+  </div>
+
+  <!-- Footer -->
+  <footer class="bg-gray-800 text-white py-8 px-4 md:px-16">
+    <div class="container mx-auto grid grid-cols-1 md:grid-cols-3 gap-8 text-center md:text-left items-center">
+      <div>
+        <a href="/" class="home-link flex flex-col items-center md:items-start space-y-2 cursor-pointer group" title="Go to Homepage">
+          <svg class="h-10 w-10 text-yellow-500 group-hover:text-yellow-400 transition-colors" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5-10-5-10 5z"/>
+          </svg>
+          <span class="text-lg font-bold text-white group-hover:text-gray-300 transition-colors">Al-Ahliya INT.</span>
+          <p class="text-gray-200 text-sm">Kuwaiti Cleaning Partner</p>
+          <p class="text-gray-400 text-sm">© 2025 <span class="font-bold">Al-Ahliya INT.</span> All Rights Reserved.</p>
+        </a>
+      </div>
+      <div class="text-sm text-gray-400 space-y-2">
+        <p><span class="font-bold text-gray-200">Working hours:</span><br>Sunday to Thursday - 9:00 AM to 5:00 PM</p>
+        <p><span class="font-bold text-gray-200">Kuwait Address:</span><br>Al-Dajeej, Block 1, Parcel 43, 1st floor, Office 6</p>
+        <p><span class="font-bold text-gray-200">Phone:</span><br><a href="tel:+96596935888" class="hover:text-yellow-400">[965] 96935888</a></p>
+      </div>
+      <div class="flex flex-col items-center md:items-end">
+        <a href="https://www.instagram.com/alahliyakwt" target="_blank" rel="noopener noreferrer" class="text-gray-400 hover:text-white transition-colors text-2xl">
+          <i class="fab fa-instagram"></i>
+        </a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="/js/main.js"></script>
+</body>
+</html>
