@@ -43,29 +43,29 @@ document.addEventListener('DOMContentLoaded', async function() {
     const slideshowNextBtn = document.querySelector('.slideshow-next');
     const slideshowIndicators = document.querySelectorAll('.slideshow-indicator');
     
-    // ===== DATA LOADING =====
-    try {
-    const response = await fetch('/products.csv');
-    console.log("CSV loading status:", response.status, response.statusText);
-    const rawData = await response.text();
-    console.log("First 100 chars of CSV:", rawData.substring(0, 100));
-    if (!response.ok) throw new Error('CSV load failed');
-    allProducts = parseAndMapProducts(rawData);
-    generateDynamicCategories();
-    addEventListeners(); // ✅ ADD THIS LINE HERE
-    } catch (error) {
-    console.error("Loading failed, using fallback", error);
-    allProducts = parseAndMapProducts(`Category,Brand,ProductName,Description,Features,SKU,Price,ImageURL
-    Cleaning Chemicals,Sprayway,Sample Product,"Sample description","Sample features",SAMPLE001,10.5,sample.jpg`);
-    generateDynamicCategories();
-    addEventListeners(); // ✅ ADD THIS LINE HERE TOO
-    }
-    console.log("All products loaded:", allProducts.length, "products");
-    if (allProducts.length === 0) {
-        console.warn("No products found, check CSV format or path.");
-    } else {
-        console.log("First product:", allProducts[0]);
-    }
+            // ===== DATA LOADING =====
+            try {
+                const response = await fetch('./products.csv'); // ✅ relative path for GH Pages safety
+                console.log("CSV loading status:", response.status, response.statusText);
+                const rawData = await response.text();
+                console.log("First 100 chars of CSV:", rawData.substring(0, 100));
+                if (!response.ok) throw new Error('CSV load failed');
+                allProducts = parseAndMapProducts(rawData);
+                generateDynamicCategories();
+                addEventListeners();
+            } catch (error) {
+                console.error("Loading failed, using fallback", error);
+                allProducts = parseAndMapProducts(`Category,Brand,ProductName,Description,Features,SKU,Price,ImageURL
+                Cleaning Chemicals,Sprayway,Sample Product,"Sample description","Sample features",SAMPLE001,10.5,./images/products/SAMPLE001.jpg`);
+                generateDynamicCategories();
+                addEventListeners();
+            }
+            console.log("All products loaded:", allProducts.length, "products");
+            if (allProducts.length === 0) {
+                console.warn("No products found, check CSV format or path.");
+            } else {
+                console.log("First product:", allProducts[0]);
+            }
 
 
     // ===== INITIALIZE APP =====
@@ -74,10 +74,10 @@ document.addEventListener('DOMContentLoaded', async function() {
     function generateDynamicCategories() {
         const uniqueCategories = [...new Set(allProducts.map(p => p.Category))];
         const defaultIcons = {
-            'Cleaning Machines': 'fas fa-cogs',
-            'Cleaning Chemicals': 'fas fa-flask',
-            'Cleaning Tools': 'fas fa-broom',
-            'Waste Management': 'fas fa-trash-alt',
+            'Machinery': 'fas fa-cogs',
+            'Chemicals': 'fas fa-flask',
+            'Tools': 'fas fa-broom',
+            'Waste': 'fas fa-trash-alt',
             'default': 'fas fa-box'
         };
         
