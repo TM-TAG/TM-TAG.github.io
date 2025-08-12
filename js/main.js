@@ -172,7 +172,7 @@ function parseAndMapProducts(csvText) {
       }
       product.ImageURL = imagePath;
     } else {
-      product.ImageURL = './images/default-product.jpg';
+      product.ImageURL = `./images/products/${product.SKU}.jpg`;
     }
 
     return product;
@@ -256,7 +256,7 @@ function parseAndMapProducts(csvText) {
             filteredProducts = filteredProducts.filter(p => 
                 p.ProductName.toLowerCase().includes(searchTerm) || 
                 p.Brand.toLowerCase().includes(searchTerm) ||
-                p.ProductID.toLowerCase().includes(searchTerm) ||
+                p.SKU.toLowerCase().includes(searchTerm) ||
                 p.Category.toLowerCase().includes(searchTerm));
         }
         
@@ -288,8 +288,8 @@ function parseAndMapProducts(csvText) {
         `;
     }
     
-    function showProductDetail(productId) {
-        const product = allProducts.find(p => p.ProductID === productId);
+    function showProductDetail(sku) {
+        const product = allProducts.find(p => p.SKU === sku);
         if (!product) return;
         
         document.getElementById('product-detail-image').src = product.ImageURL;
@@ -297,7 +297,7 @@ function parseAndMapProducts(csvText) {
         document.getElementById('product-name').textContent = product.ProductName;
         document.getElementById('product-price').textContent = `KWD ${product.Price.toFixed(3)}`;
         document.getElementById('product-description').textContent = product.Description;
-        document.getElementById('product-sku').textContent = product.ProductID;
+        document.getElementById('product-sku').textContent = product.SKU;
         document.getElementById('product-category').textContent = product.Category;
         
         const featuresList = document.getElementById('product-features');
@@ -308,7 +308,7 @@ function parseAndMapProducts(csvText) {
             });
         }
         
-        document.getElementById('add-to-cart-detail').dataset.productId = productId;
+        document.getElementById('add-to-cart-detail').dataset.sku = sku;
         showPage('product-detail');
     }
     
@@ -351,9 +351,9 @@ function parseAndMapProducts(csvText) {
     }
     
     // ===== CART LOGIC =====
-    function addToCart(productId) {
-        const product = allProducts.find(p => p.ProductID === productId);
-        const cartItem = cart.find(item => item.ProductID === productId);
+    function addToCart(sku) {
+        const product = allProducts.find(p => p.SKU === sku);
+        const cartItem = cart.find(item => item.SKU === sku);
         
         if (cartItem) cartItem.quantity++;
         else cart.push({ ...product, quantity: 1 });
@@ -366,10 +366,10 @@ function parseAndMapProducts(csvText) {
         setTimeout(() => openCartBtn.classList.remove('cart-icon-shake'), 500);
     }
     
-    function updateCartQuantity(productId, newQuantity) {
-        const cartItem = cart.find(item => item.ProductID === productId);
+    function updateCartQuantity(sku, newQuantity) {
+        const cartItem = cart.find(item => item.SKU === sku);
         if (cartItem) { 
-            newQuantity > 0 ? cartItem.quantity = newQuantity : cart = cart.filter(item => item.ProductID !== productId); 
+            newQuantity > 0 ? cartItem.quantity = newQuantity : cart = cart.filter(item => item.SKU !== sku); 
         }
         saveCart(); 
         updateCartUI();
@@ -566,12 +566,12 @@ function parseAndMapProducts(csvText) {
             
             if (!productCard) return;
             
-            const productId = productCard.dataset.productId;
+            const sku = productCard.dataset.sku;
             if (addToCartBtn) {
                 e.stopPropagation();
-                addToCart(productId);
+                addToCart(sku);
             } else {
-                showProductDetail(productId);
+                showProductDetail(sku);
             }
         }
         
@@ -630,17 +630,17 @@ function parseAndMapProducts(csvText) {
         cartItemsContainer.addEventListener('click', e => {
             const button = e.target.closest('button');
             if (!button) return;
-            const productId = button.closest('[data-product-id]').dataset.productId;
+            const sku = button.closest('[data-sku]').dataset.sku;
             if (!productId) return;
             
             if (button.classList.contains('remove-from-cart-btn')) { 
-                updateCartQuantity(productId, 0); 
+                updateCartQuantity(sku, 0); 
             } else if (button.classList.contains('quantity-btn')) {
                 const action = button.dataset.action;
                 const cartItem = cart.find(item => item.ProductID === productId);
                 if (!cartItem) return;
                 let newQuantity = cartItem.quantity + (action === 'increase' ? 1 : -1);
-                updateCartQuantity(productId, newQuantity);
+                updateCartQuantity(sku, newQuantity);
             }
         });
 
