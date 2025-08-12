@@ -172,7 +172,7 @@ function parseAndMapProducts(csvText) {
       }
       product.ImageURL = imagePath;
     } else {
-      product.ImageURL = './images/default-product.jpg';
+      product.ImageURL = '/images/products/default-product.jpg';
     }
 
     return product;
@@ -270,7 +270,7 @@ function parseAndMapProducts(csvText) {
                         <img 
                             src="${product.ImageURL}" 
                             alt="${product.ProductName}"
-                            onerror="this.onerror=null; this.src='./images/default-product.jpg'"
+                            onerror="this.onerror=null; this.src='/images/products/default-product.jpg'"
                             loading="lazy"
                         >
                     </div>
